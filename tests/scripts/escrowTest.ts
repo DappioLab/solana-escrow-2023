@@ -75,7 +75,6 @@ async function init() {
     NATIVE_MINT,
     walletPublicKey
   );
-  console.log(tokenAATa.toString());
   let transfer = SystemProgram.transfer({
     toPubkey: tokenAATa,
     lamports: 100000000,
@@ -92,7 +91,6 @@ async function init() {
   );
 
   let sync = await syncNative(connection, wallet, tokenAATa);
-  console.log(initTxSig, sync);
   let payload = Buffer.alloc(INIT_LAYOUT.span);
   let slot = await connection.getSlot();
   INIT_LAYOUT.encode(
@@ -137,7 +135,7 @@ async function init() {
     skipPreflight: true,
     commitment: "confirmed",
   });
-  console.log(txSig);
+  console.log("init: " + txSig);
   return pda;
 }
 let result = init();
@@ -149,7 +147,7 @@ async function exchange() {
   let _ = await result;
   let escrowKey = _;
   let len = (await connection.getAccountInfo(escrowKey))?.data.length;
-  console.log(len);
+
   let escrowState = ESCROW_STATE_LAYOUT.decode(
     (await connection.getAccountInfo(escrowKey))?.data
   );
@@ -191,7 +189,6 @@ async function exchange() {
     payload
   );
 
-  console.log(escrowState);
   let vaultAta = getAssociatedTokenAddressSync(
     escrowState.mintA,
     escrowKey,
@@ -232,5 +229,5 @@ async function exchange() {
     skipPreflight: true,
     commitment: "confirmed",
   });
-  console.log(txSig);
+  console.log("exhcange: " + txSig);
 }

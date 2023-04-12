@@ -12,5 +12,6 @@
     "outDir": "./dist",
     "resolveJsonModule": true
   },
-  "exclude": ["migrations", "programs", "tests", "node_modules","scripts","dist"]
+  "include": ["**/*"],
+  "exclude": ["migrations", "programs", "node_modules", "dist"]
 }
